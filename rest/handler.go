@@ -6,6 +6,7 @@ import (
 
 	"review-go/dblayer"
 	"review-go/models"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +21,7 @@ type Handler struct {
 }
 
 func NewHandler() (HandlerInterface, error) {
-	db, err := dblayer.NewORM("mysql", "admin:rh2112us@kubernetes.cuk7svtxbl15.ap-northeast-2.rds.amazonaws.com:3306/test")
+	db, err := dblayer.NewORM("mysql", "")
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +29,7 @@ func NewHandler() (HandlerInterface, error) {
 	return &Handler{
 		db: db,
 	}, nil
-	
+
 }
 
 func (h *Handler) GetAllReviews(c *gin.Context) {
@@ -39,7 +40,7 @@ func (h *Handler) GetAllReviews(c *gin.Context) {
 	reviews, err := h.db.GetAllReviews()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, reviews)
@@ -53,7 +54,7 @@ func (h *Handler) CreateReview(c *gin.Context) {
 	var review models.Review
 	err := c.ShouldBindJSON(&review)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	review, err = h.db.CreateReview(review)
@@ -74,7 +75,7 @@ func (h *Handler) FindReviewByVendorId(c *gin.Context) {
 	vendorid, err := strconv.Atoi(p)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
