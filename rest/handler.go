@@ -1,22 +1,34 @@
 package rest
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
-	"reveiw-go/dblayer"
+	"review-go/dblayer"
 	"review-go/models"
 	"github.com/gin-gonic/gin"
 )
 
-type Handler struct{
+type HandlerInterface interface {
+	GetAllReviews(c *gin.Context)
+	CreateReview(c *gin.Context)
+	FindReviewByVendorId(c *gin.Context)
+}
+
+type Handler struct {
 	db dblayer.DBLayer
 }
 
-func NewHandler() (*Handler, error) {
-	return new(Handler), nil
+func NewHandler() (HandlerInterface, error) {
+	db, err := dblayer.NewORM("mysql", "admin:rh2112us@kubernetes.cuk7svtxbl15.ap-northeast-2.rds.amazonaws.com:3306/test")
+	if err != nil {
+		return nil, err
+	}
+
+	return &Handler{
+		db: db,
+	}, nil
+	
 }
 
 func (h *Handler) GetAllReviews(c *gin.Context) {

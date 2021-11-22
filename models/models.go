@@ -2,16 +2,17 @@ package models
 
 import (
 	"time"
+
 	"github.com/jinzhu/gorm"
 )
 
-type Review struct{
+type Review struct {
 	gorm.Model
-	Id int `json:"id"`
-	VendorId int `json:"vendorId"`
-	Writer string `json:"writer"`
-	Content string `json:"content"`
-	RegisterdDate time.Time `json:"registerdDate"`
+	VendorId      int       `gorm:"column:vendor_id" json:"vendorId"`
+	Writer        string    `gorm:"column:writer" json:"writer"`
+	Title         string    `gorm:"column:title" json:"title"`
+	Content       string    `gorm:"column:content" json:"content"`
+	RegisterdDate time.Time `gorm:"column:registerd_date" json:"registerdDate"`
 }
 
 func (Review) TableNale() string {

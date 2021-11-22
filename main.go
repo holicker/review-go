@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"review-go/rest"
+)
 
 func main() {
-	fmt.Println("잘 되는 거싱가!?")
+	log.Println("========== Main Log : API Run Start")
+	rest.RunAPI("127.0.0.1:9090")
 }
