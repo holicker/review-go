@@ -1,10 +1,11 @@
 package dblayer
 
 import (
-	"errors"
-	"github.com/holicker/review-backend/models"
+	"review-go/models"
 )
 
 type DBLayer interface {
 	GetAllReviews() ([]models.Review, error)
+	CreateReview(models.Review) (models.Review, error)
+	FindReviewByVendorId(int) ([]models.Review, error)
 }
